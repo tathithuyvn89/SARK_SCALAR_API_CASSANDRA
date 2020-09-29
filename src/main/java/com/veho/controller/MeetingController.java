@@ -18,6 +18,7 @@ public class MeetingController {
     final MeetingService meetingService = new MeetingServiceImpl();
 
   public MeetingController() {
+
       post("/meetings", (request, response) -> {
 
           response.type("application/json");
