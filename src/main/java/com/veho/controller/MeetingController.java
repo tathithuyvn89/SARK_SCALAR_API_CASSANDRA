@@ -6,9 +6,11 @@ import com.veho.model.Meeting;
 import com.veho.model.Participant;
 import com.veho.service.MeetingService;
 import com.veho.service.MeetingServiceImpl;
+import spark.Spark;
 
+import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
 
 import static spark.Spark.*;
 public class MeetingController {
@@ -121,6 +123,23 @@ public class MeetingController {
                       new Gson().toJson("Participant not information")));
           }
       });
+      Spark.port(4576);
+      addCORS();
 
   }
+    private static final HashMap<String, String> corsHeaders = new HashMap<String, String>();
+
+    static {
+        corsHeaders.put("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE,OPTIONS");
+        corsHeaders.put("Access-Control-Allow-Origin", "*");
+        corsHeaders.put("Access-Control-Allow-Headers", "Content-Type,Authorization,X-Requested-With,Content-Length,Accept,Origin,");
+        corsHeaders.put("Access-Control-Allow-Credentials", "true");
+    }
+    public final static void addCORS() {
+        Spark.after((request, response) -> {
+            corsHeaders.forEach((key, value) -> {
+                response.header(key, value);
+            });
+        });
+    }
 }
